@@ -10,7 +10,7 @@ import { calculateTotalPrice } from '../../utils/cartFunctions';
 
 const useStyles = makeStyles({
   list: {
-    width: 450,
+    width: 650,
   },
   fullList: {
     width: 'auto',
@@ -23,7 +23,7 @@ function ShoppingCart(props) {
   const [state, setState] = React.useState({
     right: false,
   });
-  const { listItems, remove_from_cart } = props;
+  const { listItems, remove_from_cart, clear_cart } = props;
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -54,20 +54,39 @@ function ShoppingCart(props) {
             return (
               <TableRow key={index}>
                 <TableCell>{name}</TableCell>
-                <TableCell>{price}</TableCell>
+                <TableCell>${price}</TableCell>
                 <TableCell>{quantity}</TableCell>
-                <TableCell>{price * quantity}</TableCell>
-                <Button
-                  onClick={() => {
-                    remove_from_cart(id);
-                  }}
-                ></Button>
+                <TableCell>${price * quantity}</TableCell>
+                <TableCell>
+                  <Button
+                    color='primary'
+                    variant='contained'
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      remove_from_cart(id);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-      <Box style={{ width: '100%', marginLeft: '60%' }}>TOTAL: {calculateTotalPrice(listItems)}</Box>
+      <Box style={{ width: '100%', marginLeft: '60%', marginTop: 30 }}>
+        <Button
+          color='secondary'
+          variant='contained'
+          onClick={(e) => {
+            e.stopPropagation();
+            clear_cart();
+          }}
+        >
+          Clear Cart
+        </Button>
+      </Box>
+      <Box style={{ width: '100%', marginLeft: '60%', marginTop: 30 }}>TOTAL: {calculateTotalPrice(listItems)}</Box>
     </div>
   );
 
