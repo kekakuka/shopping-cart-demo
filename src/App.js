@@ -1,13 +1,16 @@
 import React from 'react';
 import Product from './pages/Product';
-import './App.css';
+
 import Drawer from './components/Drawer';
+import store from './store';
+import { Provider } from 'react-redux';
+
 function App() {
   return (
-    <div className='App'>
+    <Provider store={store}>
       <Drawer />
       <Product />
-    </div>
+    </Provider>
   );
 }
 
