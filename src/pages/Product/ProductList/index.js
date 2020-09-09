@@ -11,9 +11,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductList({ products, add_to_cart }) {
+function ProductList({ products, add_to_cart, listItems }) {
   const classes = useStyles();
+
   const handleAddToCart = (product) => {
+    console.log(listItems);
     add_to_cart(product);
   };
   return (
@@ -51,4 +53,4 @@ function ProductList({ products, add_to_cart }) {
     </Container>
   );
 }
-export default connect(null, action.cart)(ProductList);
+export default connect((state) => state.cart, action.cart)(ProductList);

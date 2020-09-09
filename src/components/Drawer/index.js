@@ -1,13 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import List from '@material-ui/core/List';
+
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+
+import { Table, TableHead, TableRow, TableCell, TableBody, Box, Button, Drawer } from '@material-ui/core';
 import { connect } from 'react-redux';
 import action from '../../store/action';
+import { calculateTotalPrice } from '../../utils/cartFunctions';
+
 const useStyles = makeStyles({
   list: {
     width: 450,
@@ -21,9 +21,9 @@ function ShoppingCart(props) {
   console.log(props);
   const classes = useStyles();
   const [state, setState] = React.useState({
-    left: false,
+    right: false,
   });
-
+  const { listItems, remove_from_cart } = props;
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -38,23 +38,46 @@ function ShoppingCart(props) {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        {['p1', 'p2', 'p3'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+      <Table size='small' className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell align='left'>Name</TableCell>
+            <TableCell align='left'>Price</TableCell>
+            <TableCell align='left'>Quantity</TableCell>
+            <TableCell align='left'>Sub</TableCell>
+            <TableCell align='left'>Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {listItems.map((item, index) => {
+            const { name, price, quantity, id } = item;
+            return (
+              <TableRow key={index}>
+                <TableCell>{name}</TableCell>
+                <TableCell>{price}</TableCell>
+                <TableCell>{quantity}</TableCell>
+                <TableCell>{price * quantity}</TableCell>
+                <Button
+                  onClick={() => {
+                    remove_from_cart(id);
+                  }}
+                ></Button>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+      <Box style={{ width: '100%', marginLeft: '60%' }}>TOTAL: {calculateTotalPrice(listItems)}</Box>
     </div>
   );
 
   return (
-    <React.Fragment key={'left'}>
-      <Button onClick={toggleDrawer('left', true)}>
+    <React.Fragment key={'right'}>
+      <Button onClick={toggleDrawer('right', true)}>
         <ShoppingCartIcon />
       </Button>
-      <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
-        {list('left')}
+      <Drawer anchor={'right'} open={state['right']} onClose={toggleDrawer('right', false)}>
+        {list('right')}
       </Drawer>
     </React.Fragment>
   );

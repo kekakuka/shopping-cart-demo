@@ -8,13 +8,15 @@ export default function cart(
 ) {
   switch (action.type) {
     case TYPES.ADD_TO_CART:
-      state.listitems = addToCart(state.listItems, action.data);
+      state = { listItems: addToCart(state.listItems, action.data) };
       break;
     case TYPES.REMOVE_FROM_CART:
-      state.listitems = removeFromCart(state.listItems, action.data);
+      state = { listItems: removeFromCart(state.listItems, action.data) };
+
       break;
     case TYPES.CLEAR_CART:
-      state.listitems = clearCart();
+      state = { listItems: clearCart() };
+
       break;
     default:
       break;
