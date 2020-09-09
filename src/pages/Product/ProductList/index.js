@@ -3,15 +3,19 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Card, CardContent, Box, Typography, Button } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { connect } from 'react-redux';
+import action from '../../../store/action';
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: '5vh',
   },
 }));
 
-export default function ProductList({ products }) {
+function ProductList({ products, add_to_cart }) {
   const classes = useStyles();
-  const handleAddToCart = () => {};
+  const handleAddToCart = (product) => {
+    add_to_cart(product);
+  };
   return (
     <Container className={classes.container}>
       <Grid container spacing={2}>
@@ -30,11 +34,10 @@ export default function ProductList({ products }) {
                     </Typography>
                   </Box>
                 </Box>
-
                 <Box>
                   <Button
                     onClick={(e) => {
-                      handleAddToCart();
+                      handleAddToCart(product);
                     }}
                   >
                     <ShoppingCartIcon />
@@ -48,3 +51,4 @@ export default function ProductList({ products }) {
     </Container>
   );
 }
+export default connect(null, action.cart)(ProductList);

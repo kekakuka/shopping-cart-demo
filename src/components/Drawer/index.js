@@ -6,7 +6,8 @@ import List from '@material-ui/core/List';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { connect } from 'react-redux';
+import action from '../../store/action';
 const useStyles = makeStyles({
   list: {
     width: 450,
@@ -16,7 +17,8 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TemporaryDrawer() {
+function ShoppingCart(props) {
+  console.log(props);
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
@@ -57,3 +59,5 @@ export default function TemporaryDrawer() {
     </React.Fragment>
   );
 }
+
+export default connect((state) => state.cart, action.cart)(ShoppingCart);
