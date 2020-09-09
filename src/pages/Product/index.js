@@ -1,8 +1,8 @@
 import React from 'react';
 import products from '../../constants/products';
-
+import ProductList from './ProductList';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, Grid, Card } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,13 +14,7 @@ export default function Product() {
   const classes = useStyles();
   return (
     <Container className={classes.container}>
-      <Grid container>
-        {products.map((product, index) => (
-          <Grid key={index} item xs={6} md={3}>
-            <Card>{product.name}</Card>
-          </Grid>
-        ))}
-      </Grid>
+      <ProductList products={products} />
     </Container>
   );
 }
